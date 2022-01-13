@@ -1,6 +1,9 @@
 version: '3.4'
 
 services:
+  contactdb:
+    image: mongo
+
   contact.api:
     image: ${DOCKER_REGISTRY-}contactapi
     build:
@@ -13,3 +16,5 @@ services:
       context: .
       dockerfile: Services/Report/Report.API/Dockerfile
 
+volumes:
+  mongo_data:
