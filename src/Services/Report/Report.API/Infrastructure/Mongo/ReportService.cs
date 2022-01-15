@@ -2,9 +2,8 @@
 using MongoDB.Driver;
 using Report.API.Application;
 using Report.API.Domain;
-using Report.API.Infrastructure.Mongo;
 
-namespace Report.API.Infrastructure
+namespace Report.API.Infrastructure.Mongo
 {
     public class ReportService : IReportService
     {
@@ -29,7 +28,7 @@ namespace Report.API.Infrastructure
         public async Task<ReportEntry?> GetAsync(string id) =>
             await _reportsCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
-        public async Task<string> CreateAsync()
+        public async Task<ReportEntry> CreateAsync()
         {
             var reportToInsert = new ReportEntry()
             {
@@ -37,7 +36,7 @@ namespace Report.API.Infrastructure
                 Status = ReportStatus.BeingPrepared
             };
             await _reportsCollection.InsertOneAsync(reportToInsert);
-            return reportToInsert.Id ?? string.Empty;
+            return reportToInsert;
         }
     }
 }

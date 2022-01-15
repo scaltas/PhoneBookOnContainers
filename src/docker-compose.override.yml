@@ -33,6 +33,11 @@ services:
     container_name: report.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - "ReportDatabase__ConnectionString=mongodb://reportdb:27017"
+      - "ReportDatabase__DatabaseName=ReportDb"
+      - "ReportDatabase__ReportsCollectionName=Reports"
+    depends_on:
+      - contactdb
     ports:
       - "8002:80"
 
