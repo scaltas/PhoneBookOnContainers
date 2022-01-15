@@ -1,11 +1,18 @@
+using System.Reflection;
+using System.Text.Json.Serialization;
 using Contact.API.Infrastructure.Mongo;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
 builder.Services.AddMongoDbServices(builder.Configuration);
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddControllers().AddJsonOptions(x =>
+{
+    x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
+
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

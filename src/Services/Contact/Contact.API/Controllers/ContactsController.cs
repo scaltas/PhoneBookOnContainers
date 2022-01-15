@@ -17,7 +17,7 @@ namespace Contact.API.Controllers
         public async Task<List<ContactEntry>> Get() =>
             await _contactService.GetAsync();
 
-        [HttpGet("{id:length(24)}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<ContactEntry>> Get(string id)
         {
             var contact = await _contactService.GetAsync(id);
@@ -31,14 +31,14 @@ namespace Contact.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(ContactEntry newContact)
+        public async Task<IActionResult> Post(NewContact newContact)
         {
-            await _contactService.CreateAsync(newContact);
+            var newId = await _contactService.CreateAsync(newContact);
 
-            return CreatedAtAction(nameof(Get), new { id = newContact.Id }, newContact);
+            return CreatedAtAction(nameof(Get), new { id = newId }, newContact);
         }
 
-        [HttpPut("{id:length(24)}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Update(string id, ContactEntry updatedContact)
         {
             var contact = await _contactService.GetAsync(id);
@@ -53,7 +53,7 @@ namespace Contact.API.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id:length(24)}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
             var contact = await _contactService.GetAsync(id);
@@ -63,7 +63,7 @@ namespace Contact.API.Controllers
                 return NotFound();
             }
 
-            await _contactService.RemoveAsync(contact.Id);
+            await _contactService.RemoveAsync(contact.Id ?? string.Empty);
 
             return NoContent();
         }
