@@ -4,6 +4,9 @@ services:
   contactdb:
     image: mongo
   
+  reportdb:
+    image: mongo
+ 
   contact.api:
     image: ${DOCKER_REGISTRY-}contactapi
     build:
@@ -17,4 +20,5 @@ services:
       dockerfile: Services/Report/Report.API/Dockerfile
 
 volumes:
-  mongo_data:
+  contact_mongo_data:
+  report_mongo_data:

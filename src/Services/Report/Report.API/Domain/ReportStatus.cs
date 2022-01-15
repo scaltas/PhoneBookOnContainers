@@ -1,4 +1,4 @@
-﻿namespace Report.API.Model
+﻿namespace Report.API.Domain
 {
     public enum ReportStatus
     {
