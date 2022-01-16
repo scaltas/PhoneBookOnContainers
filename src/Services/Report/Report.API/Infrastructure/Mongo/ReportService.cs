@@ -38,5 +38,11 @@ namespace Report.API.Infrastructure.Mongo
             await _reportsCollection.InsertOneAsync(reportToInsert);
             return reportToInsert;
         }
+
+        public async Task<bool> UpdateAsync(ReportEntry report)
+        {
+            await _reportsCollection.FindOneAndReplaceAsync(x => x.Id == report.Id, report);
+            return true;
+        }
     }
 }

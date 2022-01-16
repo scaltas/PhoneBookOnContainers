@@ -7,5 +7,6 @@ namespace Report.API.Application
         Task<List<ReportEntry>> GetAsync();
         Task<ReportEntry?> GetAsync(string id);
         Task<ReportEntry> CreateAsync();
+        Task<bool> UpdateAsync(ReportEntry report);
     }
 }

@@ -39,7 +39,7 @@ namespace Report.API.Controllers
         public async Task<IActionResult> Post()
         {
             var report = await _reportService.CreateAsync();
-            var reportRequestedEvent = new ReportRequestedEvent();
+            var reportRequestedEvent = new ReportRequestedEvent(report.Id, report.RequestDate);
             await _eventBus.SendAsync("ReportQueue", reportRequestedEvent);
 
             return CreatedAtAction(nameof(Get), new { id = report.Id }, report);
