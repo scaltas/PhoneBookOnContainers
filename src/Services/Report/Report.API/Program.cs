@@ -1,10 +1,12 @@
 using System.Text.Json.Serialization;
+using Report.API.Events;
 using Report.API.Infrastructure.Mongo;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddMongoDbServices(builder.Configuration);
+builder.Services.AddSingleton(sp => RabbitHutch.CreateBus("rabbitmq"));
 builder.Services.AddControllers().AddJsonOptions(x =>
 {
     x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());

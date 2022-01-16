@@ -1,6 +1,13 @@
 version: '3.4'
 
 services:
+  rabbitmq:
+    container_name: rabbitmq
+    restart: always
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
   contactdb:
     container_name: contactdb
     restart: always
@@ -37,7 +44,8 @@ services:
       - "ReportDatabase__DatabaseName=ReportDb"
       - "ReportDatabase__ReportsCollectionName=Reports"
     depends_on:
-      - contactdb
+      - reportdb
+      - rabbitmq
     ports:
       - "8002:80"
 

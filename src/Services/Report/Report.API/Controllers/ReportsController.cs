@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Report.API.Application;
 using Report.API.Domain;
+using Report.API.Events;
 
 namespace Report.API.Controllers
 {
@@ -9,9 +10,13 @@ namespace Report.API.Controllers
     public class ReportsController : ControllerBase
     {
         private readonly IReportService _reportService;
+        private readonly IBus _eventBus;
 
-        public ReportsController(IReportService contactService) =>
+        public ReportsController(IReportService contactService, IBus eventBus)
+        {
             _reportService = contactService;
+            _eventBus = eventBus;
+        }
 
         [HttpGet]
         public async Task<List<ReportEntry>> Get() =>
@@ -34,6 +39,8 @@ namespace Report.API.Controllers
         public async Task<IActionResult> Post()
         {
             var report = await _reportService.CreateAsync();
+            var reportRequestedEvent = new ReportRequestedEvent();
+            await _eventBus.SendAsync("ReportQueue", reportRequestedEvent);
 
             return CreatedAtAction(nameof(Get), new { id = report.Id }, report);
         }
