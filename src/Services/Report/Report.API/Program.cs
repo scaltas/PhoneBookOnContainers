@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
-using Report.API.BackgroundServices;
 using Report.API.Events;
 using Report.API.Infrastructure.Mongo;
+using Report.API.Infrastructure.Reporting;
 
 var builder = WebApplication.CreateBuilder(args);
 
